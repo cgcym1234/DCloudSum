@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../../js/mui.js"></script>
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">下拉刷新和上拉加载更多</h1>
+		</header>
+	</body>
+
+	<script type="text/javascript" charset="UTF-8">
+		/*
+		     下拉刷新
+		
+		为实现下拉刷新功能，大多H5框架都是通过DIV模拟下拉回弹动画，
+		在低端android手机上，DIV动画经常出现卡顿现象（特别是图文列表的情况）；
+		
+		mui通过双webview解决这个DIV的拖动流畅度问题；
+		拖动时，拖动的不是div，而是一个完整的webview（子webview），回弹动画使用原生动画；
+		在iOS平台，H5的动画已经比较流畅，故依然使用H5方案。
+		两个平台实现虽有差异，但mui经过封装，可使用一套代码实现下拉刷新。
+		
+		主页面内容比较简单，只需要创建子页面即可：
+		     * */
+		mui.init({
+			gestureConfig:{
+				doubletap:true	//打开双击事件
+			},
+			subpages: [{
+				url: 'pullRefreshContent.html', //下拉刷新内容页面地址
+				id: 'pullRefreshContent', //内容页面标志
+				styles: {
+					top: '45px', //内容页面顶部位置,需根据实际页面布局计算，若使用标准mui导航，顶部默认为45px；
+					bottom: '0px'
+				}
+			}]
+		});
+		
+		/*概述
+
+mui的上拉加载和下拉刷新类似，都属于pullRefresh插件，使用过程如下：
+
+1、页面滚动到底，显示“正在加载...”提示（mui框架提供）
+2、执行加载业务数据逻辑（开发者提供）
+3、加载完毕，隐藏"正在加载"提示（mui框架提供）
+开发者只需关心业务逻辑，实现加载更多数据即可。*/
+		
+		//双击header，列表滑到最顶部
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function(){
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#refreshContainer').pullRefresh().scrollTo(0,0,100)");
+		})
+	</script>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>eventDemo</title>
+		<script src="../../../js/mui.js"></script>
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" >
+			mui.init();
+		</script>
+	</head>
+	
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">eventDemo</h1>
+		</header>
+
+		<div class="mui-content">
+			<p>
+				<button type="button" id="btn1" class="mui-btn-blue">通过控件类型绑定事件</button>
+			</p>
+
+			<p>
+				<button type="button" class="mui-btn" id="btn2">通过class绑定事件</button>
+			</p>
+
+			<p>
+				<button type="button" id="btn3" class="mui-btn">通过id绑定事件</button>
+			</p>
+
+		</div>
+
+		<div class="mui-active">
+			<p>
+				<button type="button" id="btn4" class="mui-btn">手动触发上面 第三个button的事件</button>
+			</p>
+		</div>
+
+		<p>
+			<button type="button" id="btn5" class="mui-btn">进入手势demo页面</button>
+		</p>
+
+	</body>
+	<script type="text/javascript">
+		
+		/*
+		使用.on()方法实现批量元素的事件绑定。一个控件可以同时绑定多个事件
+		*/
+		
+		/*
+		 给所有button类型控件绑定了点击事件
+		 * */
+		mui('.mui-content').on('tap', 'button', function() {
+			alert('通过控件类型绑定事件');
+		});
+		/*
+		 给clsaa为mui-btn类型控件，绑定了点击事件
+		 * */
+		mui('.mui-content').on('tap', '.mui-btn', function() {
+			alert('通过class绑定事件');
+		});
+		/*
+		 给id为btn3的控件，绑定了点击事件
+		 * */
+		mui('.mui-content').on('tap', '#btn3', function() {
+			alert('通过id绑定事件');
+		});
+		/*
+		 使用mui.trigger()方法可以动态触发特定DOM元素上的事件。
+		 
+		 需要注意：部分mui控件监听的事件无法通过mui.trigger触发，
+		 比如无法实现自动触发mui返回图标，实现关闭当前页面的功能，该部分逻辑正在优化中
+		 
+		 下面手动触发id 为 btn3的事件
+		 */
+		document.getElementById("btn4").addEventListener('tap', function() {
+			var btn3 = document.getElementById("btn3");
+			mui.trigger(btn3, 'tap');
+		});
+		document.getElementById("btn5").addEventListener('tap', function() {
+			mui.openWindow('gestureDemo.html', 'gestureDemo');
+		});
+	</script>
+
+
+	
+
+</html>

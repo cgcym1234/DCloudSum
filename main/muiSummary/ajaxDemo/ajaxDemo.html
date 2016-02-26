@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../../js/mui.min.js"></script>
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			
+			requestCategoryData();
+			function requestCategoryData() {
+				mui.ajax('http://solr.meilele.com/solr-manage/catalog/', {
+					type: 'post', //HTTP请求类型
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 20000, //超时时间设置为10秒；
+					success: function(data) {
+						categorydata = data['categorySortMap'];
+						mui.plusReady(function() {
+							console.log(categorydata);
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.plusReady(function() {
+							console.log(xhr + ' ' + type + ' ' + errorThrown);
+						});
+					}
+				});
+			}
+		</script>
+	</head>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">ajaxDemo</h1>
+		</header>
+
+	<body>
+	
+	
+
+	</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../../js/mui.js"></script>
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<!--
+		iOS平台的下拉刷新，使用的是mui封装的区域滚动组件， 
+		为保证两个平台的DOM结构一致，内容页面需统一按照如下DOM结构构建：
+	-->
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron"></ul>
+			</div>
+		</div>
+
+		<script type="text/javascript" charset="UTF-8">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					down: {
+						contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+						contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+						contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+						callback: headerRefreshCallback //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: footerRefreshCallback //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			/*
+			 下拉刷新是mui框架的一个插件，该插件目前有下拉刷新结束、滚动到特定位置两个方法；
+			 
+			 下拉刷新结束
+			在下拉刷新过程中，当获取新数据后，需要执行endPulldownToRefresh方法， 
+			该方法的作用是关闭“正在刷新”的雪花进度提示，内容区域回滚顶部位置，如下：
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+			*/
+			
+			//自动开始下拉刷新
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					mui('#refreshContainer').pullRefresh().pulldownLoading();
+				});
+			} else{
+				mui.ready(function() {
+					mui('#refreshContainer').pullRefresh().pulldownLoading();
+				})
+			}
+			
+			//下拉刷新回调
+			function headerRefreshCallback() {
+				setTimeout(headerRefreshAction, 1500);
+			}
+			//上拉加载更多回调
+			function footerRefreshCallback() {
+				setTimeout(footerRefreshAction, 1500);
+			}
+			var totalNum = 0;
+
+			function headerRefreshAction() {
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+				var table = document.body.querySelector('.mui-table-view');
+				table.innerHTML = ""; //清空所有子节点
+				totalNum = 0;
+				for (var i = 0; i < 15; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.innerHTML = '<a class="mui-navigate-right">header refresh ' + (i + 1) + '</a>';
+					table.appendChild(li);
+					totalNum++;
+				}
+				/*
+				 重置上拉加载
+				 */
+				mui('#refreshContainer').pullRefresh().refresh(true);
+				
+				/*
+				 禁用上拉刷新
+				在部分场景下希望禁用上拉加载，比如在列表数据过少时，
+				不想显示“上拉显示更多”、“没有更多数据”的提示语，
+				可以通过调用disablePullupToRefresh()方法实现
+				 * */
+				mui('#refreshContainer').pullRefresh().disablePullupToRefresh();
+				
+				/*
+				 启用上拉刷新
+				使用disablePullupToRefresh()方法禁用上拉加载后，
+				可通过enablePullupToRefresh()方法再次启用上拉加载
+				*/
+				mui('#refreshContainer').pullRefresh().enablePullupToRefresh();
+			}
+
+			function footerRefreshAction() {
+				/*
+				 * 结束上拉加载
+				加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
+				
+				.endPullupToRefresh( nomore )
+				nomore Type: Boolean
+				是否还有更多数据；若还有更多数据，则传入false; 否则传入true，
+				之后滚动条滚动到底时，将不再显示“上拉显示更多”的提示语，而显示“没有更多数据了”的提示语；
+				 */
+//				if (totalNum >= 25) {
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh(totalNum >= 25);
+//				} 
+				
+				var table = document.body.querySelector('.mui-table-view');
+				var allCells = document.body.querySelectorAll('.mui-table-view-cell');
+				for (var i = allCells.length; i < allCells.length + 5; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.innerHTML = '<a class="mui-navigate-right">footer refresh ' + (i + 1) + '</a>';
+					table.appendChild(li);
+					totalNum++;
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

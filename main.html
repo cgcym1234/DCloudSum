@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<!--tab底部选项条-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href="main/muiSummary/muiSummary.html">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">muiSummary</span>
+			</a>
+			<a class="mui-tab-item" href="main/user/user.html">
+				<span class="mui-icon mui-icon-phone"></span>
+				<span class="mui-tab-label">其他</span>
+			</a>
+		</nav>
+
+	</body>
+	<script type="text/javascript" charset="UTF-8">
+		mui.init();
+		var mainWebView;
+		var tabBarItemViewUrls = [
+			'main/muiSummary/muiSummary.html',
+			'main/user/user.html'
+		];
+		//初始页面id，就是url
+		var activeTabId = tabBarItemViewUrls[0];
+		var tabBarItemViewStyle = {
+			top: '0px',
+			bottom: '51px'
+		};
+		setupTabBarItem();
+		addEventForTabBarItem();
+		
+		//创建子页面，首个选项卡页面显示，其它均隐藏；
+		function setupTabBarItem() {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				for (var i = 0; i < tabBarItemViewUrls.length; i++) {
+					var url = tabBarItemViewUrls[i];
+					var webView = mui.preload({
+						url: url,
+						id: url,
+						styles: tabBarItemViewStyle,
+						waiting: {
+							autoShow: false
+						}
+					});
+					if (i == 0) {
+						webView.show();
+					} else {
+						webView.hide();
+					}
+					self.append(webView);
+				}
+			});
+		}
+
+		function addEventForTabBarItem() {
+			mui('.mui-bar-tab').on('tap', '.mui-tab-item', function() {
+				var targetTabUrl = this.getAttribute('href');
+				if (targetTabUrl == activeTabId) {
+					return;
+				}
+				plus.webview.show(targetTabUrl, "fade-in", 300);
+				//若为iOS平台或非首次显示，则直接显示
+				//				if (mui.os.ios) {
+				//					plus.webview.show(targetTabUrl);
+				//				} else{
+				//					plus.webview.show(targetTabUrl, "fade-in", 300);
+				//				}
+				//隐藏当前;
+				plus.webview.hide(activeTabId);
+				//更改当前活跃的选项卡
+				activeTabId = targetTabUrl;
+			});
+		}
+	</script>
+
+</html>

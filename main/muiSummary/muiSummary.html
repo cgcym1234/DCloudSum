@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>muiSummary</title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.flexbox {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				background-color: slategrey;
+			}
+			
+			.flex-item {
+				background-color: deepskyblue;
+				margin: 5px;
+				width: 200px;
+				height: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">muiSummary</h1>
+		</header>
+
+		<div class="flexbox mui-content">
+			<button id="btn1" class="flex-item" type="button">事件demo</button>
+			<button id="btn2" class="flex-item" type="button">上下拉刷新demo</button>
+			<button id="btn3" class="flex-item" type="button">网络请求ajaxDemo</button>
+			<button id="btn4" class="flex-item" type="button"></button>
+		</div>
+
+	</body>
+	
+	<script type="text/javascript">
+		mui.init();
+		document.getElementById("btn1").addEventListener('tap', function() {
+			mui.openWindow('event/eventDemo.html', 'eventDemo');
+		});
+		
+		document.getElementById("btn2").addEventListener('tap', function() {
+			mui.openWindow('pullRefresh/pullRefreshDemo.html', 'pullRefreshDemo');
+		});
+		
+		document.getElementById("btn3").addEventListener('tap', function() {
+			mui.openWindow('ajaxDemo/ajaxDemo.html', 'ajaxDemo');
+		});
+	</script>
+
+</html>
