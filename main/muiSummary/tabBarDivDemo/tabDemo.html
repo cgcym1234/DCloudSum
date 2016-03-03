@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../../js/mui.js"></script>
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">底部选项卡-div模式</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href="#shouye">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="#xiaoxi">
+				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
+				<span class="mui-tab-label">消息</span>
+			</a>
+			<a class="mui-tab-item" href="#jiedan">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">接单</span>
+			</a>
+			<a class="mui-tab-item" href="#kehu">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">客户</span>
+			</a>
+		</nav>
+
+		<div class="mui-content">
+			<div id="shouye" class="mui-control-content mui-active">
+				<iframe frameborder="0" width="100%" height="100%" name="iframe1" src="../ajaxDemo/ajaxDemo.html">
+				</iframe>
+			</div>
+
+			<div id="xiaoxi" class="mui-control-content">
+				<iframe frameborder="0" width="100%" height="100%" name="iframe2" src="../event/eventDemo.html">
+				</iframe>
+			</div>
+
+			<div id="jiedan" class="mui-control-content">
+				<iframe frameborder="0" width="100%" height="100%" name="iframe3" src="../event/gestureDemo.html">
+				</iframe>
+			</div>
+
+			<div id="kehu" class="mui-control-content">
+				<iframe frameborder="0" width="100%" height="100%" name="iframe4" src="../pullRefresh/pullRefreshDemo.html">
+				</iframe>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript" charset="UTF-8">
+		mui.init();
+	</script>
+
+</html>

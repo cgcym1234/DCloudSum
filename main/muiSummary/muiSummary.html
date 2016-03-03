@@ -35,7 +35,7 @@
 			<button id="btn1" class="flex-item" type="button">事件demo</button>
 			<button id="btn2" class="flex-item" type="button">上下拉刷新demo</button>
 			<button id="btn3" class="flex-item" type="button">网络请求ajaxDemo</button>
-			<button id="btn4" class="flex-item" type="button"></button>
+			<button id="btn4" class="flex-item" type="button">div方式实现tabbar</button>
 		</div>
 
 	</body>
@@ -52,6 +52,10 @@
 		
 		document.getElementById("btn3").addEventListener('tap', function() {
 			mui.openWindow('ajaxDemo/ajaxDemo.html', 'ajaxDemo');
+		});
+		
+		document.getElementById("btn4").addEventListener('tap', function(){
+			mui.openWindow('tabBarDivDemo/tabDemo.html', 'tabDemo');
 		});
 	</script>
 
